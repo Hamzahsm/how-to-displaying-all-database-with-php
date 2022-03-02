@@ -1,3 +1,23 @@
+<?php
+$con = mysqli_connect('your_host', 'db_user', 'db_pass', 'db_name');
+
+function query($query)
+{
+    global $con;
+    $result = mysqli_query($con, $query);
+    $emptyarray = [];
+
+    while ($datas = mysqli_fetch_assoc($result)) {
+        $emptyarray[] = $datas;
+    }
+
+    return $emptyarray;
+}
+
+$query = query("SELECT * FROM demo");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +29,27 @@
 </head>
 
 <body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Order</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($query as $data) : ?>
+                <tr>
+                    <td>1</td>
+                    <td><?= $data["name"]; ?></td>
+                    <td><?= $data['order']; ?></td>
+                    <td><?= $data['date']; ?></td>
+                </tr>
+        </tbody>
+    <?php endforeach; ?>
+    </table>
 
 </body>
 
